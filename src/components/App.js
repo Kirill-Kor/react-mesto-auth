@@ -10,11 +10,12 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
-import { Route, Switch, useHistory, withRouter } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
-import { checkTokenValidity } from './Auth';
+import { checkTokenValidity } from '../utils/Auth';
+
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -139,6 +140,7 @@ function App() {
     api.patchUserInfo({ name, about })
       .then((user) => {
         setCurrentUser(user);
+        closeAllPopups();
       })
       .catch(error => {
         console.log(error);
@@ -149,6 +151,7 @@ function App() {
     api.patchUserAvatar(avatarLink)
       .then((user) => {
         setCurrentUser(user);
+        closeAllPopups();
       })
       .catch(error => {
         console.log(error);
@@ -159,6 +162,7 @@ function App() {
     api.addNewCard({ name, link })
       .then((newCard) => {
         setCardsArray([newCard, ...cardsArray]);
+        closeAllPopups();
       })
       .catch(error => {
         console.log(error);
@@ -166,11 +170,12 @@ function App() {
   }
 
   return (
+    // Обязательно поработаю над всеми "можно лучше"
 
     <div className="container">
 
-      <Switch>
-
+      <Switch> 
+      
         <ProtectedRoute exact path="/" loggedIn={loggedIn}>
           <Header text="Выйти" onLogout={handleLogout} isLoggedIn={loggedIn} email={userEmail} />
           <CurrentUserContext.Provider value={currentUser || ''}>

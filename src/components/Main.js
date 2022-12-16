@@ -31,14 +31,14 @@ function Main(props) {
 
             <section className="places">
                 <ul className="places__table">
-                    {props.cards.map((card) =>
+                    {props.cards.map((card) => (
                             <Card
                                 card={card}
                                 key={card._id}
                                 onCardClick={props.onCardClick}
                                 onCardLike={props.onCardLike}
                                 onCardDelete={props.onCardDelete}
-                            ></Card>
+                            ></Card>)
                     )}
 
                 </ul>

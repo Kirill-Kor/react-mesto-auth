@@ -1,3 +1,5 @@
+import { checkResponse } from "./checkResponse";
+
 class Api {
   constructor(options) {
     this._options = {...options};
@@ -5,12 +7,7 @@ class Api {
   }
   _fetch(path, method = "GET", body) {
     return fetch(`${this._options.baseUrl}${path}`, {headers: this._options.headers, method: method, body: body})
-      .then((result) => {
-        if(result.ok) {
-          return result.json();
-        }
-        return Promise.reject(`Ошибка: ${result.status}`);
-      })
+      .then(checkResponse)
   }
 
   getInitialCards() {

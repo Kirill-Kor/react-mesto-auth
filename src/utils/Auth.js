@@ -1,3 +1,5 @@
+import { checkResponse } from "./checkResponse";
+
 export const BASE_URL = 'https://auth.nomoreparties.co';
 
 export const register = ({ userEmail, userPassword }) => {
@@ -8,7 +10,7 @@ export const register = ({ userEmail, userPassword }) => {
         },
         body: JSON.stringify({email: userEmail, password: userPassword})
     })
-        .then(response => response.ok ? response.json() : Promise.reject(`Ошибка ${response.status}`))
+        .then(checkResponse)
 }
 
 export const login = ({userEmail, userPassword}) => {
@@ -19,7 +21,7 @@ export const login = ({userEmail, userPassword}) => {
         },
         body: JSON.stringify({email: userEmail, password: userPassword})
     })
-        .then(response => response.ok ? response.json() : Promise.reject(`Ошибка ${response.status}`))
+        .then(checkResponse)
 }
 
 export const checkTokenValidity = () => {
@@ -30,5 +32,5 @@ export const checkTokenValidity = () => {
             "Authorization" : `Bearer ${localStorage.getItem('jwt')}`
         },
     })
-        .then(response => response.ok ? response.json() : Promise.reject(`Ошибка ${response.status}`))
+        .then(checkResponse)
 }
